@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "repo2graph"
+  site-url: "https://jwengr.github.io/repo2graph"
+  description: "repo2graph"
+  repo-branch: main
+  repo-url: "https://github.com/jwengr/repo2graph"
