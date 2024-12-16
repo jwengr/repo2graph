@@ -43,7 +43,7 @@ def add_node_by_path(path: str, base_dir: str, repo_name:str, g: nx.DiGraph = No
                 source_code = file.read()
             # Add the source code as an attribute to the final node
             g.nodes[current_node]['source'] = source_code
-            extract_class_function_relationships_with_source(g, current_node)
+            g = extract_class_function_relationships_with_source(g, current_node)
         except Exception as e:
             print(f"Error reading file {path}: {e}")
 
@@ -79,14 +79,13 @@ def extract_class_function_relationships_with_source(g: nx.DiGraph, root_name:st
         g (nx.DiGraph): A pre-existing directed graph.
         root_node: The root node of the syntax tree, which contains the `source` attribute.
     """
-    # Initialize the Tree-sitter Python parser
-    PY_LANGUAGE = Language(tspython.language())  # Replace with your Tree-sitter language path
+    PY_LANGUAGE = Language(tspython.language())
     parser = Parser(PY_LANGUAGE)
     tree = parser.parse(bytes(g.nodes[root_name]['source'], "utf8"))
     
     def get_source_text(node):
         """Extract the source code corresponding to a node."""
-        return g.nodes[root_name]['source'][node.start_byte:node.end_byte]
+        return bytes(g.nodes[root_name]['source'][node.start_byte:node.end_byte], "utf8")
     
     def traverse(node, current_parent):
         if node.type in ['class_definition', 'function_definition']:
