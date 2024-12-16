@@ -5,4 +5,8 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://jwengr.github.io',
                 'git_url': 'https://github.com/jwengr/repo2graph',
                 'lib_path': 'repo2graph'},
-  'syms': {'repo2graph.core': {'repo2graph.core.foo': ('core.html#foo', 'repo2graph/core.py')}}}
+  'syms': { 'repo2graph.core': { 'repo2graph.core.add_node_by_path': ('core.html#add_node_by_path', 'repo2graph/core.py'),
+                                 'repo2graph.core.add_node_by_repo': ('core.html#add_node_by_repo', 'repo2graph/core.py'),
+                                 'repo2graph.core.extract_class_function_relationships_with_source': ( 'core.html#extract_class_function_relationships_with_source',
+                                                                                                       'repo2graph/core.py')},
+            'repo2graph.utils': {'repo2graph.utils.clone_repo': ('utils.html#clone_repo', 'repo2graph/utils.py')}}}
