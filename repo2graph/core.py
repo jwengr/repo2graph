@@ -7,7 +7,6 @@ __all__ = ['add_node_by_path', 'add_node_by_repo', 'extract_class_function_relat
 
 # %% ../nbs/00_core.ipynb 3
 import os
-import uuid
 import tempfile
 import networkx as nx
 import tree_sitter_python as tspython
@@ -32,7 +31,7 @@ def add_node_by_path(path: str, base_dir: str, repo_name:str, g: nx.DiGraph = No
 
     for i in range(len(components)):
         next_node = '/'.join(components[:i+1])
-        g.add_node(next_node, uuid=str(uuid.uuid4()))
+        g.add_node(next_node)
         if current_node:
             g.add_edge(current_node, next_node)
         current_node = next_node
@@ -49,25 +48,47 @@ def add_node_by_path(path: str, base_dir: str, repo_name:str, g: nx.DiGraph = No
 
     return g
         
-def add_node_by_repo(repo_url: str, g: nx.DiGraph = None, ignore_files=['setup.py']):
-    """Clones the repository and adds nodes based on the files in the repo."""
+def add_node_by_repo(repo_url: str = None, repo_dir: str = None, g: nx.DiGraph = None, ignore_files=['setup.py']):
+    """Clones the repository (if repo_url is provided) or uses the local directory (if repo_dir is provided),
+    and adds nodes based on the files in the repo."""
+
+    # Ensure that either repo_url or repo_dir is provided, but not both
+    if bool(repo_url) == bool(repo_dir):
+        raise ValueError("You must provide exactly one of 'repo_url' or 'repo_dir', not both.")
+
+    # If no graph is provided, initialize a new one
     if g is None:
         g = nx.DiGraph()
-    repo_name = repo_url.split('/')[-1].replace('.git','')
 
-    with tempfile.TemporaryDirectory() as tempdir:
-        # Clone the repository into the temporary directory
-        clone_repo(repo_url, tempdir)
+    # Determine the repo name based on the URL or directory
+    if repo_url:
+        repo_name = repo_url.split('/')[-1].replace('.git', '')
+    else:
+        repo_name = os.path.basename(os.path.normpath(repo_dir))
 
-        # Get all file paths in the repository (recursively)
-        repo_file_paths = glob(f"{tempdir}/**/*.py", recursive=True)
+    # Use the local directory if provided, otherwise clone the repo
+    if repo_url:
+        with tempfile.TemporaryDirectory() as tempdir:
+            # Clone the repository into the temporary directory
+            clone_repo(repo_url, tempdir)
+
+            # Get all file paths in the repository (recursively)
+            repo_file_paths = glob(f"{tempdir}/**/*.py", recursive=True)
+            # Add nodes to the graph for each file path
+            for file_path in repo_file_paths:
+                if file_path.split('/')[-1] in ignore_files:
+                    continue
+                # Add the node based on the file path, using base_dir as the root
+                g = add_node_by_path(file_path, repo_dir or tempdir, repo_name, g)
+    else:
+        repo_file_paths = glob(f"{repo_dir}/**/*.py", recursive=True)
 
         # Add nodes to the graph for each file path
         for file_path in repo_file_paths:
             if file_path.split('/')[-1] in ignore_files:
                 continue
             # Add the node based on the file path, using base_dir as the root
-            g = add_node_by_path(file_path, tempdir, repo_name, g)
+            g = add_node_by_path(file_path, repo_dir or tempdir, repo_name, g)
 
     return g
 
@@ -85,13 +106,13 @@ def extract_class_function_relationships_with_source(g: nx.DiGraph, root_name:st
     
     def get_source_text(node):
         """Extract the source code corresponding to a node."""
-        return bytes(g.nodes[root_name]['source'][node.start_byte:node.end_byte], "utf8")
+        return bytes(g.nodes[root_name]['source'], "utf8")[node.start_byte:node.end_byte].decode("utf8")
     
     def traverse(node, current_parent):
         if node.type in ['class_definition', 'function_definition']:
             name_node = node.child_by_field_name('name')
             if name_node:
-                name = g.nodes[root_name]['source'][name_node.start_byte:name_node.end_byte]
+                name = bytes(g.nodes[root_name]['source'], "utf8")[name_node.start_byte:name_node.end_byte].decode("utf8")
                 full_name = '/'.join([current_parent, name])  # Construct hierarchical name
                 source_text = get_source_text(node)
                 node_type = 'class' if node.type == 'class_definition' else 'function'
