@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "retrieval.html",
+    "href": "retrieval.html",
+    "title": "retrieval",
+    "section": "",
+    "text": "source\n\nbuild_bm25_retriever\n\n build_bm25_retriever (corpus,\n                       tokenizer:transformers.models.auto.tokenization_aut\n                       o.AutoTokenizer=None)",
+    "crumbs": [
+      "retrieval"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "repo2graph",
+    "section": "",
+    "text": "This file will become your README and also the index of your documentation.",
+    "crumbs": [
+      "repo2graph"
+    ]
+  },
+  {
+    "objectID": "index.html#developer-guide",
+    "href": "index.html#developer-guide",
+    "title": "repo2graph",
+    "section": "Developer Guide",
+    "text": "Developer Guide\nIf you are new to using nbdev here are some useful pointers to get you started.\n\nInstall repo2graph in Development mode\n# make sure repo2graph package is installed in development mode\n$ pip install -e .\n\n# make changes under nbs/ directory\n# ...\n\n# compile to have changes apply to repo2graph\n$ nbdev_prepare",
+    "crumbs": [
+      "repo2graph"
+    ]
+  },
+  {
+    "objectID": "index.html#usage",
+    "href": "index.html#usage",
+    "title": "repo2graph",
+    "section": "Usage",
+    "text": "Usage\n\nInstallation\nInstall latest from the GitHub repository:\n$ pip install git+https://github.com/jwengr/repo2graph.git\nor from conda\n$ conda install -c jwengr repo2graph\nor from pypi\n$ pip install repo2graph\n\n\nDocumentation\nDocumentation can be found hosted on this GitHub repository’s pages. Additionally you can find package manager specific guidelines on conda and pypi respectively.",
+    "crumbs": [
+      "repo2graph"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "repo2graph",
+    "section": "How to use",
+    "text": "How to use\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2",
+    "crumbs": [
+      "repo2graph"
+    ]
+  },
+  {
+    "objectID": "graph.html",
+    "href": "graph.html",
+    "title": "graph",
+    "section": "",
+    "text": "source\n\nmodify_node\n\n modify_node (g:networkx.classes.digraph.DiGraph, node_id:str, source:str)\n\n*Modify the content of a node in the graph by updating its source code.\nParameters: g (nx.DiGraph): The directed graph. node_name (str): The name of the node to modify. source (str): The new source code for the node.\nReturns: nx.DiGraph: The updated graph.*\n\nsource\n\n\nget_parent_file\n\n get_parent_file (g:networkx.classes.digraph.DiGraph, node_id:str)\n\n*Finds the unique parent node n-hops away with an attribute ‘type’ equal to ‘file’.\nParameters: g (nx.DiGraph): The directed graph. node_name (str): The name of the node to start the search.\nReturns: str or None: The name of the parent node with ‘type’ == ‘file’, or None if no such node exists.*\n\nsource\n\n\ndetach_node\n\n detach_node (g:networkx.classes.digraph.DiGraph, node_id:str)\n\n*Deletes a node and all its descendants from a directed graph.\nParameters: g (nx.DiGraph): The directed graph. node_name (str): The name of the node to delete.\nReturns: None: The graph is modified in place.*\n\nsource\n\n\nget_child_node_by_line\n\n get_child_node_by_line (g:networkx.classes.digraph.DiGraph,\n                         parent_node_id:str, line=&lt;class 'int'&gt;)\n\n\nsource\n\n\nfind_nodes_by_path\n\n find_nodes_by_path (g:networkx.classes.digraph.DiGraph, path:str,\n                     node_type=None)\n\n\nsource\n\n\nparse_py\n\n parse_py (g:networkx.classes.digraph.DiGraph, root_node_id:str)\n\n*Extract class, function, and import relationships from a syntax tree into a given graph.\nArgs: g (nx.DiGraph): A pre-existing directed graph. root_node_id (str): root node id*\n\nsource\n\n\nbuild_repo_graph\n\n build_repo_graph (repo_url:str=None, repo_dir:str=None,\n                   g:networkx.classes.digraph.DiGraph=None,\n                   ignore_files=['setup.py'])\n\nClones the repository (if repo_url is provided) or uses the local directory (if repo_dir is provided), and adds nodes based on the files in the repo.\n\nsource\n\n\nbuild_nodes_by_path\n\n build_nodes_by_path (path:str, base_dir:str, repo_name:str,\n                      g:networkx.classes.digraph.DiGraph=None)\n\nAdds nodes to the graph based on the file path and adds source code for .py files.\n\nsource\n\n\nadd_nodes_by_source\n\n add_nodes_by_source (g:networkx.classes.digraph.DiGraph, source_path:str,\n                      source:str)\n\n\nsource\n\n\nremove_duplicates\n\n remove_duplicates (g:networkx.classes.digraph.DiGraph)\n\n\nsource\n\n\nget_node_name\n\n get_node_name (g:networkx.classes.digraph.DiGraph, id:str)\n\n\nsource\n\n\nadd_node\n\n add_node (g:networkx.classes.digraph.DiGraph, name:str, **kwargs)",
+    "crumbs": [
+      "graph"
+    ]
+  },
+  {
+    "objectID": "utils.html",
+    "href": "utils.html",
+    "title": "utils",
+    "section": "",
+    "text": "source\n\nclone_repo\n\n clone_repo (repo_url:str, target_dir:str, auth_token:str=None)\n\nClone a Git repository to the target directory with optional authentication.\n\nsource\n\n\ntrace_exception\n\n trace_exception (e)\n\nTrace and print the exception details",
+    "crumbs": [
+      "utils"
+    ]
+  }
+]
