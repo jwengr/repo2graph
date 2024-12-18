@@ -11,7 +11,6 @@ import os
 import tempfile
 import networkx as nx
 import tree_sitter_python as tspython
-import bm25s
 
 from glob import glob
 from uuid import uuid4
