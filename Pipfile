@@ -8,8 +8,12 @@ networkx = "==3.4.2"
 gitpython = "==3.1.43"
 tree-sitter = "==0.23.2"
 tree-sitter-python = "==0.23.2"
+bm25s = "==0.2.5"
+transformers = "==4.47.1"
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
-python_version = "3.12"
+python_version = "3.11"
+python_full_version = "3.11.11"
